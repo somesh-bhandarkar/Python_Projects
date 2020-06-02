@@ -1,47 +1,57 @@
 #!/usr/bin/env python3
-# Course: ENPM694 - Network Security
 # Author: Somesh Bhandarkar
 #
 #
 #
+import sys
 
+def caesar_str_enc(plaintext, K):
+    ciphertext=""
+    for ch in plaintext:
+        encch = caesar_ch_enc(ch, K)
+        ciphertext = ciphertext + encch
+        
+    return ciphertext
 
-print("[+] This program will convert Plain Text to Encoded Text using Ceasar Cipher")
-
-def input_message():
-    print("Enter the Plain Text to be Encoded")
-    plain_text = input('> ')
-    return plain_text
-
-def input_key():
-    print("Enter the Key by which the Plain Text should be shifted")
-    print("Key Range:(1-26)")
-    key = int(input('> '))
-    if key > 25:
-        print("The key should be in the range 1 to 25")
+def caesar_ch_enc(ch, K):
+    if ch == " ":
+    	enc_char = " "
+    	return enc_char
     else:
-        return key
+        pt = ord(ch) - 97 
+        coded_pt = int((pt + K) % 26)
+        enc_char = chr(coded_pt + 97)
+        return enc_char
+    
 
-def encode_message(plain_text, K):
-    encoded_message = ""
-    for char in plain_text:
-          p = ord(char) - 97
-          encoded_p = int((p + K) % 26)
-          encoded_char = chr(encoded_p + 97)
-          encoded_message = encoded_message + encoded_char
+def caesar_str_dec(ciphertext, K):
+    plaintext = ""
+    for ch in ciphertext:
+        decch = caesar_ch_dec(ch, K)
+        plaintext = plaintext + decch
+        
+    return plaintext
+
+def caesar_ch_dec(ch, K):
+    if ch == " ":
+        dec_char = " "
+        return dec_char
+    else:
+        ct = ord(ch) - 97
+        coded_ct = int((ct - K) % 26)
+        dec_char = chr(coded_ct + 97)
+        return dec_char
 
 
-          if char == " ":
-                encoded_message = encoded_message + " "
-
-          
-    return encoded_message
-
-if __name__ == "__main__":
-	plain_text = input_message()
-	key = input_key()
-
-	encrypted_message = encode_message(plain_text, key)
-	print("The encrypted message is", encrypted_message) 
-
+def test_module():
+    K = int(sys.argv[1])
+    input_str = sys.argv[2]
+    encstr = caesar_str_enc(input_str, K)
+    print(encstr)
+    decstr = caesar_str_dec(encstr, K)
+    print(decstr)
+    
+    
+if __name__=="__main__":
+    test_module()
 
