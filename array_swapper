@@ -1,0 +1,7 @@
+def swap(arr):
+    #your code here
+    #print(arr)
+    temp = arr[2]
+    arr[2] = arr[0]
+    arr[0] = temp
+    return arr
